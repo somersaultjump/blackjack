@@ -137,13 +137,6 @@ deal_num = 1
 print(f"Welcome, {player.name}! Let's play Blackjack!")
 
 
-
 # Start the game
 while game_over == False:
     play_round()
-    
-
-# take bet
-# deal cards
-# check win
-
