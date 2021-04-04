@@ -1,18 +1,12 @@
-# starting over clean
-
 import cards
 import sys
 import time
 
-# initial setup
-# make the player, dealer, deck, and pot
+# initial setup; make the player, dealer, deck, and pot
 player = cards.Player()
 dealer = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()
-# set game state variables
-game_over = False
-deal_num = 1
 
 def show_table():
     print('')
