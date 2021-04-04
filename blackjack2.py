@@ -6,7 +6,6 @@ import time
 
 # initial setup
 # make the player, dealer, deck, and pot
-# player_name = input("Who is playing? ")
 player = cards.Player()
 dealer = cards.Player("Dealer")
 dealer_deck = cards.Deck()
@@ -48,14 +47,13 @@ def next_move():
     '''))
 
     if option == 1: # stand
-        if dealer.hand_value() < 17:
-            while dealer.hand_value() < 17:
-                dealer.all_cards.append(dealer_deck.deal_card())
-                show_table()
-                time.sleep(1)
-            who_wins()
+        while dealer.hand_value() < 17:
+            dealer.all_cards.append(dealer_deck.deal_card())
+            show_table()
+            time.sleep(1)
+            continue
         
-        elif dealer.hand_value() >= 17:
+        if dealer.hand_value() >= 17:
             who_wins()
 
     elif option == 2: # hit
@@ -80,12 +78,10 @@ def who_wins():
         print(f"{player.name} wins!")
         return
 
-    elif dealer.hand_value == player.hand_value():
+    elif dealer.hand_value() == player.hand_value():
         show_table()
         print("Push")
         return
-
-# print(f"Welcome, {player.name}! Let's play Blackjack!")
 
 initial_deal()
 show_table()
