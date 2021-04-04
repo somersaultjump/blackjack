@@ -19,17 +19,27 @@ values = { # TODO: figure out how to make ace 1 or 11
 
 class Card():
 
-    def __init__(self,rank,suit):
+    def __init__(self,rank,suit,hidden=False):
         self.rank = rank
         self.suit = suit
         self.value = values[rank]
+        self.hidden = hidden
+        self.hrank = "????"
+        self.hsuit = "??????"
+        self.hvalue = 0
 
     def __str__(self):
-        return self.rank + " of " + self.suit
+        if self.hidden == True:
+            return self.hrank + " of " + self.hsuit
+        else:
+            return self.rank + " of " + self.suit
 
-    def hidden(self):
-        # add functionality to hide card properties, as if its facedown.
-        pass
+    # add functionality to hide card properties, as if its facedown.
+    def hide(self):
+        self.hidden = True
+
+    def show(self):
+        self.hidden = False
 
 class Deck():
 
