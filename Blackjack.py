@@ -11,6 +11,10 @@ pot = cards.Pot()
 def show_table():
     print('')
     print('***********************')
+    print('***********************')
+    print('***********************')
+    print('')
+    print(f'Pot: {pot.amount}')
     print('')
     print("Dealer's hand:")
     for dealer_card in dealer.all_cards:
@@ -63,6 +67,7 @@ def next_move():
         show_table()
         if player.hand_value() > 21:
             print("BUST!!")
+            pot.empty()
             return
         next_move()
         
@@ -90,6 +95,12 @@ def who_wins():
         print("Push")
         return
 
+def make_bet():
+    bet = int(input("How much do you want to bet? "))
+    player.deduct(bet)
+    pot.add(bet)
+
+make_bet()
 initial_deal()
 show_table()
 next_move()

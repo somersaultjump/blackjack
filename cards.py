@@ -87,3 +87,6 @@ class Pot():
 
     def deduct(self,amount):
         self.amount -= amount
+
+    def empty(self):
+        self.amount = 0
