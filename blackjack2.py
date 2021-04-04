@@ -67,18 +67,21 @@ def next_move():
 
 def who_wins():
     if dealer.hand_value() > player.hand_value():
+        show_table()
         print("Dealer wins!")
         return
 
     elif dealer.hand_value() < player.hand_value():
+        show_table()
         print(f"{player.name} wins!")
         return
 
     elif dealer.hand_value == player.hand_value():
+        show_table()
         print("Push")
         return
 
-print(f"Welcome, {player.name}! Let's play Blackjack!")
+# print(f"Welcome, {player.name}! Let's play Blackjack!")
 
 initial_deal()
 show_table()
