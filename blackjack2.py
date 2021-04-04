@@ -5,8 +5,8 @@ import sys
 
 # initial setup
 # make the player, dealer, deck, and pot
-player_name = input("Who is playing? ")
-player = cards.Player(player_name)
+# player_name = input("Who is playing? ")
+player = cards.Player()
 dealer = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()

@@ -47,7 +47,7 @@ class Deck():
 
 class Player():
 
-    def __init__(self,name):
+    def __init__(self,name="Player"):
         self.name = name
         self.all_cards = []
         self.money = 100
