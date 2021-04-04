@@ -14,8 +14,14 @@ def show_table():
     print('')
     print("Dealer's hand:")
     for dealer_card in dealer.all_cards:
-        print(f"({dealer_card.value}) > {dealer_card}")
-    print(f"[{dealer.hand_value()}]")
+        if dealer_card.hidden == True:
+            print(f"({dealer_card.hvalue}) > {dealer_card}")
+        else:
+            print(f"({dealer_card.value}) > {dealer_card}")
+    if dealer.all_cards[-1].hidden == True:
+        print(f"[{dealer.hand_value() - dealer.all_cards[-1].value}]")
+    else:
+        print(f"[{dealer.hand_value()}]")
     print('')
     print('')
     print(f"{player.name}'s hand:")
@@ -31,6 +37,7 @@ def initial_deal():
     dealer.all_cards.append(dealer_deck.deal_card())
     player.all_cards.append(dealer_deck.deal_card())
     dealer.all_cards.append(dealer_deck.deal_card())
+    dealer.all_cards[-1].hide()
 
 def next_move():
     option = int(input('''
@@ -41,6 +48,7 @@ def next_move():
     '''))
 
     if option == 1: # stand
+        dealer.all_cards[-1].show()
         while dealer.hand_value() < 17:
             dealer.all_cards.append(dealer_deck.deal_card())
             show_table()
