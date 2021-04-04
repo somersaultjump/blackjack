@@ -75,8 +75,7 @@ class Player():
         return total
 
     def clear_hand(self):
-        for card in self.all_cards:
-            self.all_cards.remove(card)
+        self.all_cards[:]
 
 class Pot():
     

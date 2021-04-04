@@ -16,8 +16,6 @@ def refresh():
 def show_table():
     print('')
     print('***********************')
-    print('***********************')
-    print('***********************')
     print('')
     print(f'Pot: {pot.amount}')
     print('')
@@ -42,6 +40,8 @@ def show_table():
     print('')
 
 def initial_deal():
+    del player.all_cards[:]
+    del dealer.all_cards[:]
     player.all_cards.append(dealer_deck.deal_card())
     dealer.all_cards.append(dealer_deck.deal_card())
     player.all_cards.append(dealer_deck.deal_card())
@@ -125,10 +125,11 @@ def play_blackjack():
     initial_deal()
     refresh()
     next_move()
-    time.sleep(5)
-    player.clear_hand()
-    dealer.clear_hand()
+    time.sleep(4)
     os.system('clear')
 
 while player.money > 0:
     play_blackjack()
+
+print("You ran out of money.")
+time.sleep(5)
