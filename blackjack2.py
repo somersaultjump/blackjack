@@ -53,6 +53,7 @@ def next_move():
                 dealer.all_cards.append(dealer_deck.deal_card())
                 show_table()
                 time.sleep(1)
+            who_wins()
         
         elif dealer.hand_value() >= 17:
             who_wins()
