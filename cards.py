@@ -74,6 +74,10 @@ class Player():
             total += card.value
         return total
 
+    def clear_hand(self):
+        for card in self.all_cards:
+            self.all_cards.remove(card)
+
 class Pot():
     
     def __init__(self):

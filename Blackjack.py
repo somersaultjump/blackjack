@@ -1,12 +1,17 @@
 import cards
 import sys
 import time
+import os
 
 # initial setup; make the player, dealer, deck, and pot
 player = cards.Player()
 dealer = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()
+
+def refresh():
+    os.system('clear')
+    show_table()
 
 def show_table():
     print('')
@@ -55,7 +60,7 @@ def next_move():
         dealer.all_cards[-1].show()
         while dealer.hand_value() < 17:
             dealer.all_cards.append(dealer_deck.deal_card())
-            show_table()
+            refresh()
             time.sleep(1)
             continue
         
@@ -64,7 +69,7 @@ def next_move():
 
     elif option == 2: # hit
         player.all_cards.append(dealer_deck.deal_card())
-        show_table()
+        refresh()
         if player.hand_value() > 21:
             print("BUST!!")
             pot.empty()
@@ -76,7 +81,7 @@ def next_move():
 
 def who_wins():
     if dealer.hand_value() > 21:
-        show_table()
+        refresh()
         print(f"Player wins {pot.amount}!")
         player.money += pot.amount
         pot.empty()
@@ -84,13 +89,13 @@ def who_wins():
         return
 
     if dealer.hand_value() > player.hand_value():
-        show_table()
+        refresh()
         print("Dealer wins!")
         pot.empty()
         return
 
     elif dealer.hand_value() < player.hand_value():
-        show_table()
+        refresh()
         print(f"Player wins {pot.amount}!")
         player.money += pot.amount
         pot.empty()
@@ -98,7 +103,7 @@ def who_wins():
         return
 
     elif dealer.hand_value() == player.hand_value():
-        show_table()
+        refresh()
         print("Push")
         player.money += pot.amount/2
         pot.empty()
@@ -118,7 +123,12 @@ def make_bet():
 def play_blackjack():
     make_bet()
     initial_deal()
-    show_table()
+    refresh()
     next_move()
+    time.sleep(5)
+    player.clear_hand()
+    dealer.clear_hand()
+    os.system('clear')
 
-play_blackjack()
+while player.money > 0:
+    play_blackjack()
