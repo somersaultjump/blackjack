@@ -50,13 +50,33 @@ def next_move():
         if dealer.hand_value() < 17:
             dealer.all_cards.append(dealer_deck.deal_card())
             show_table()
+        
+        elif dealer.hand_value() >= 17:
+            who_wins()
 
-    if option == 2: # hit
+    elif option == 2: # hit
         player.all_cards.append(dealer_deck.deal_card())
         show_table()
+        if player.hand_value() > 21:
+            print("BUST!!")
+            return
+        next_move()
         
-    if option == 3: # quit
+    elif option == 3: # quit
         sys.exit(0)
+
+def who_wins():
+    if dealer.hand_value() > player.hand_value():
+        print("Dealer wins!")
+        return
+
+    elif dealer.hand_value() < player.hand_value():
+        print(f"{player.name} wins!")
+        return
+
+    elif dealer.hand_value == player.hand_value():
+        print("Push")
+        return
 
 print(f"Welcome, {player.name}! Let's play Blackjack!")
 
