@@ -77,30 +77,48 @@ def next_move():
 def who_wins():
     if dealer.hand_value() > 21:
         show_table()
-        print("Player wins!")
+        print(f"Player wins {pot.amount}!")
+        player.money += pot.amount
+        pot.empty()
+        print(f"Player money: {player.money}")
         return
 
     if dealer.hand_value() > player.hand_value():
         show_table()
         print("Dealer wins!")
+        pot.empty()
         return
 
     elif dealer.hand_value() < player.hand_value():
         show_table()
-        print(f"{player.name} wins!")
+        print(f"Player wins {pot.amount}!")
+        player.money += pot.amount
+        pot.empty()
+        print(f"Player money: {player.money}")
         return
 
     elif dealer.hand_value() == player.hand_value():
         show_table()
         print("Push")
+        player.money += pot.amount/2
+        pot.empty()
         return
 
 def make_bet():
-    bet = int(input("How much do you want to bet? "))
+    bet = int(input(f'''
+    How much do you want to bet?
+    ({player.money} available)
+    '''))
+    if bet > player.money:
+        print("You can't afford that. Try again.")
+        make_bet()
     player.deduct(bet)
-    pot.add(bet)
+    pot.add(bet*2)
 
-make_bet()
-initial_deal()
-show_table()
-next_move()
+def play_blackjack():
+    make_bet()
+    initial_deal()
+    show_table()
+    next_move()
+
+play_blackjack()
