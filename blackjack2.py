@@ -14,10 +14,52 @@ pot = cards.Pot()
 game_over = False
 deal_num = 1
 
+def show_table():
+    print('')
+    print('***********************')
+    print('')
+    print("Dealer's hand:")
+    for dealer_card in dealer.all_cards:
+        print(f"({dealer_card.value}) > {dealer_card}")
+    print(f"[{dealer.hand_value()}]")
+    print('')
+    print('')
+    print(f"{player.name}'s hand:")
+    for player_card in player.all_cards:
+        print(f"({player_card.value}) > {player_card}")
+    print(f"[{player.hand_value()}]")
+    print('')
+    print('***********************')
+    print('')
+
+def initial_deal():
+    player.all_cards.append(dealer_deck.deal_card())
+    dealer.all_cards.append(dealer_deck.deal_card())
+    player.all_cards.append(dealer_deck.deal_card())
+    dealer.all_cards.append(dealer_deck.deal_card())
+
+def next_move():
+    option = int(input('''
+    What do you want to do next?
+    1. Stand
+    2. Hit
+    3. Quit
+    '''))
+
+    if option == 1: # stand
+        if dealer.hand_value() < 17:
+            dealer.all_cards.append(dealer_deck.deal_card())
+            show_table()
+
+    if option == 2: # hit
+        player.all_cards.append(dealer_deck.deal_card())
+        show_table()
+        
+    if option == 3: # quit
+        sys.exit(0)
+
 print(f"Welcome, {player.name}! Let's play Blackjack!")
 
-
-
-
-
-sys.exit(0)
+initial_deal()
+show_table()
+next_move()
