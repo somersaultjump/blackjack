@@ -62,6 +62,11 @@ def next_move():
         sys.exit(0)
 
 def who_wins():
+    if dealer.hand_value() > 21:
+        show_table()
+        print("Player wins!")
+        return
+
     if dealer.hand_value() > player.hand_value():
         show_table()
         print("Dealer wins!")
