@@ -2,6 +2,7 @@
 
 import cards
 import sys
+import time
 
 # initial setup
 # make the player, dealer, deck, and pot
@@ -48,8 +49,10 @@ def next_move():
 
     if option == 1: # stand
         if dealer.hand_value() < 17:
-            dealer.all_cards.append(dealer_deck.deal_card())
-            show_table()
+            while dealer.hand_value() < 17:
+                dealer.all_cards.append(dealer_deck.deal_card())
+                show_table()
+                time.sleep(1)
         
         elif dealer.hand_value() >= 17:
             who_wins()
