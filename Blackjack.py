@@ -109,6 +109,7 @@ def who_wins():
         return
 
 def make_bet():
+    # TODO: validate bet input type
     bet = int(input(f'''
     How much do you want to bet?
     ({player.money} available)
