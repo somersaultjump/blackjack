@@ -3,7 +3,6 @@ import sys
 import time
 import os
 
-# initial setup; make the player, dealer, deck, and pot
 player = cards.Player()
 dealer = cards.Player("Dealer")
 dealer_deck = cards.Deck()
