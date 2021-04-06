@@ -16,6 +16,7 @@ def show_table():
     print('')
     print('***********************')
     print('')
+    print(f'Deck: {len(dealer_deck.all_cards)}')
     print(f'Pot: {pot.amount}')
     print('')
     print("Dealer's hand:")
@@ -104,7 +105,7 @@ def who_wins():
     elif dealer.hand_value() == player.hand_value():
         refresh()
         print("Push")
-        player.money += pot.amount/2
+        player.money += pot.amount//2
         pot.empty()
         return
 
