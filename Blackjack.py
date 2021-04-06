@@ -10,6 +10,7 @@ pot = cards.Pot()
 
 def refresh():
     os.system('clear')
+    ace_check()
     show_table()
 
 def show_table():
@@ -80,6 +81,14 @@ def next_move():
         sys.exit(0)
 
 def who_wins():
+    if player.hand_value() == 21:
+        if len(player.all_cards) == 2:
+            print(f"BLACKJACK!! Player wins {pot.amount*1.5}")
+            player.money += pot.amount*1.5
+            pot.empty()
+            print(f"Player money: {player.money}")
+            return
+
     if dealer.hand_value() > 21:
         refresh()
         print(f"Player wins {pot.amount}!")
@@ -120,6 +129,25 @@ def make_bet():
         make_bet()
     player.deduct(bet)
     pot.add(bet*2)
+
+def ace_check():
+    global player
+    global dealer
+    for person in [player,dealer]:
+        for card in person.all_cards:
+            if card.rank == 'Ace':
+                print(f"{person.name} has an Ace...")
+                if person.name == 'Player':
+                    if person.hand_value == 21:
+                        who_wins()
+                if person.hand_value() >= 10:
+                    print(f"AND {person.name} has more than 10: {person.hand_value()}")
+                    print(f'Old Ace: {card.value}')
+                    card.value = 1
+                    print(f'New Ace: {card.value}')
+                    return
+                print(f"BUT {person.name} has less than 9: {person.hand_value()}")
+                print(f'Ace: {card.value}')
 
 def play_blackjack():
     make_bet()
