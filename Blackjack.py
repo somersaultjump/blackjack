@@ -158,6 +158,10 @@ def play_blackjack():
     os.system('clear')
 
 while player.money > 0:
+    if len(dealer_deck.all_cards) <= 13:
+        dealer_deck = cards.Deck()
+        print("...shuffling the deck...")
+        time.sleep(3)
     play_blackjack()
 
 print("You ran out of money.")
