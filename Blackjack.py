@@ -9,7 +9,10 @@ dealer_deck = cards.Deck()
 pot = cards.Pot()
 
 def refresh():
-    os.system('clear')
+    if sys.platform == 'win32':
+        os.system('cls')
+    else:
+        os.system('clear')
     ace_check()
     show_table()
 
@@ -49,7 +52,7 @@ def initial_deal():
     dealer.all_cards.append(dealer_deck.deal_card())
     dealer.all_cards[-1].hide()
 
-def next_move():
+def next_move(): # TODO: validate choice input type
     option = int(input('''
     What do you want to do next?
     1. Stand
@@ -64,10 +67,8 @@ def next_move():
             refresh()
             time.sleep(1)
             continue
-        
         if dealer.hand_value() >= 17:
             who_wins()
-
     elif option == 2: # hit
         player.all_cards.append(dealer_deck.deal_card())
         refresh()
@@ -76,12 +77,10 @@ def next_move():
             pot.empty()
             return
         next_move()
-        
     elif option == 3: # quit
         sys.exit(0)
 
 def who_wins():
-
     if dealer.hand_value() > 21:
         refresh()
         print(f"Player wins {pot.amount}!")
@@ -111,8 +110,7 @@ def who_wins():
         pot.empty()
         return
 
-def make_bet():
-    # TODO: validate bet input type
+def make_bet(): # TODO: validate bet input type
     bet = int(input(f'''
     How much do you want to bet?
     ({player.money} available)
@@ -129,17 +127,17 @@ def ace_check():
     for person in [player,dealer]:
         for card in person.all_cards:
             if card.rank == 'Ace':
-                print(f"{person.name} has an Ace...")
+                # print(f"{person.name} has an Ace...")
                 if player.hand_value == 21:
                     who_wins()
                 if person.hand_value() > 21:
-                    print(f"AND {person.name} has more than 21: {person.hand_value()}")
-                    print(f'Old Ace: {card.value}')
+                    # print(f"AND {person.name} has more than 21: {person.hand_value()}")
+                    # print(f'Old Ace: {card.value}')
                     card.value = 1
-                    print(f'New Ace: {card.value}')
+                    # print(f'New Ace: {card.value}')
                     return
-                print(f"BUT {person.name} has less than 21: {person.hand_value()}")
-                print(f'Ace: {card.value}')
+                # print(f"BUT {person.name} has less than 21: {person.hand_value()}")
+                # print(f'Ace: {card.value}')
 
 def play_blackjack():
     make_bet()
