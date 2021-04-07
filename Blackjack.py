@@ -81,13 +81,6 @@ def next_move():
         sys.exit(0)
 
 def who_wins():
-    if player.hand_value() == 21:
-        if len(player.all_cards) == 2:
-            print(f"BLACKJACK!! Player wins {pot.amount*3//2}")
-            player.money += pot.amount*3//2
-            pot.empty()
-            print(f"Player money: {player.money}")
-            return
 
     if dealer.hand_value() > 21:
         refresh()
@@ -152,6 +145,13 @@ def play_blackjack():
     make_bet()
     initial_deal()
     refresh()
+    if player.hand_value() == 21:
+        if len(player.all_cards) == 2:
+            print(f"BLACKJACK!! Player wins {pot.amount*3//2}")
+            player.money += pot.amount*3//2
+            pot.empty()
+            print(f"Player money: {player.money}")
+            return
     next_move()
     time.sleep(4)
     os.system('clear')
