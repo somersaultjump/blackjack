@@ -122,6 +122,9 @@ def make_bet(): # TODO: validate bet input type
     pot.add(bet*2)
 
 def ace_check():
+    # TODO: see if the ace value change can be a method
+    # on the class, so we don't have to use global vars here
+    # W0603: Using the global statement (global-statement)
     global PLAYER
     global DEALER
     for person in [PLAYER,DEALER]:
