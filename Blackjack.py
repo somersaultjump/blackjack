@@ -25,11 +25,11 @@ def show_table():
     print('')
     print("Dealer's hand:")
     for dealer_card in dealer.all_cards:
-        if dealer_card.hidden == True:
+        if dealer_card.hidden is True:
             print(f"({dealer_card.hvalue}) > {dealer_card}")
         else:
             print(f"({dealer_card.value}) > {dealer_card}")
-    if dealer.all_cards[-1].hidden == True:
+    if dealer.all_cards[-1].hidden is True:
         print(f"[{dealer.hand_value() - dealer.all_cards[-1].value}]")
     else:
         print(f"[{dealer.hand_value()}]")
