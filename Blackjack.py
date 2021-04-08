@@ -128,7 +128,7 @@ def ace_check():
         for card in person.all_cards:
             if card.rank == 'Ace':
                 # print(f"{person.name} has an Ace...")
-                if player.hand_value == 21:
+                if player.hand_value() == 21:
                     who_wins()
                 if person.hand_value() > 21:
                     # print(f"AND {person.name} has more than 21: {person.hand_value()}")
