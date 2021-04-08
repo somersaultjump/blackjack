@@ -9,6 +9,7 @@ dealer_deck = cards.Deck()
 pot = cards.Pot()
 
 def refresh():
+    """Clear the screen, check for aces on the table, show the table."""
     if sys.platform == 'win32':
         os.system('cls')
     else:
@@ -17,6 +18,7 @@ def refresh():
     show_table()
 
 def show_table():
+    """Display the active game table."""
     print('')
     print('***********************')
     print('')
@@ -44,6 +46,7 @@ def show_table():
     print('')
 
 def initial_deal():
+    """Clear player hands, deal new hand, hide second dealer card."""
     del PLAYER.all_cards[:]
     del DEALER.all_cards[:]
     PLAYER.all_cards.append(dealer_deck.deal_card())
@@ -53,6 +56,7 @@ def initial_deal():
     DEALER.all_cards[-1].hide()
 
 def next_move(): # TODO: validate choice input type
+    """Get and execute next move from player."""
     option = int(input('''
     What do you want to do next?
     1. Stand
@@ -81,6 +85,7 @@ def next_move(): # TODO: validate choice input type
         sys.exit(0)
 
 def who_wins():
+    """Evaluate and act on win conditions."""
     if DEALER.hand_value() > 21:
         refresh()
         print(f"Player wins {pot.amount}!")
@@ -111,6 +116,7 @@ def who_wins():
         return
 
 def make_bet(): # TODO: validate bet input type
+    """Ask player to make a bet, deduct from player, add to pot."""
     bet = int(input(f'''
     How much do you want to bet?
     ({PLAYER.money} available)
@@ -122,6 +128,7 @@ def make_bet(): # TODO: validate bet input type
     pot.add(bet*2)
 
 def ace_check():
+    """Logic to check for aces and adjust value."""
     # TODO: see if the ace value change can be a method
     # on the class, so we don't have to use global vars here
     # W0603: Using the global statement (global-statement)
@@ -143,6 +150,7 @@ def ace_check():
                 # print(f'Ace: {card.value}')
 
 def play_blackjack():
+    """Main function."""
     make_bet()
     initial_deal()
     refresh()
