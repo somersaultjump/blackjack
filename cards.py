@@ -1,3 +1,5 @@
+"""Cards module defines classes specifically for the card game Blackjack."""
+
 import random
 
 suits = (

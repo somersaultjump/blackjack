@@ -1,14 +1,15 @@
-import cards
 import sys
 import time
 import os
+import cards
 
-player = cards.Player()
-dealer = cards.Player("Dealer")
+PLAYER = cards.Player()
+DEALER = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()
 
 def refresh():
+    """Clear the screen, check for aces on the table, show the table."""
     if sys.platform == 'win32':
         os.system('cls')
     else:
@@ -17,6 +18,7 @@ def refresh():
     show_table()
 
 def show_table():
+    """Display the active game table."""
     print('')
     print('***********************')
     print('')
@@ -24,35 +26,37 @@ def show_table():
     print(f'Pot: {pot.amount}')
     print('')
     print("Dealer's hand:")
-    for dealer_card in dealer.all_cards:
-        if dealer_card.hidden == True:
+    for dealer_card in DEALER.all_cards:
+        if dealer_card.hidden is True:
             print(f"({dealer_card.hvalue}) > {dealer_card}")
         else:
             print(f"({dealer_card.value}) > {dealer_card}")
-    if dealer.all_cards[-1].hidden == True:
-        print(f"[{dealer.hand_value() - dealer.all_cards[-1].value}]")
+    if DEALER.all_cards[-1].hidden is True:
+        print(f"[{DEALER.hand_value() - DEALER.all_cards[-1].value}]")
     else:
-        print(f"[{dealer.hand_value()}]")
+        print(f"[{DEALER.hand_value()}]")
     print('')
     print('')
-    print(f"{player.name}'s hand:")
-    for player_card in player.all_cards:
+    print(f"{PLAYER.name}'s hand:")
+    for player_card in PLAYER.all_cards:
         print(f"({player_card.value}) > {player_card}")
-    print(f"[{player.hand_value()}]")
+    print(f"[{PLAYER.hand_value()}]")
     print('')
     print('***********************')
     print('')
 
 def initial_deal():
-    del player.all_cards[:]
-    del dealer.all_cards[:]
-    player.all_cards.append(dealer_deck.deal_card())
-    dealer.all_cards.append(dealer_deck.deal_card())
-    player.all_cards.append(dealer_deck.deal_card())
-    dealer.all_cards.append(dealer_deck.deal_card())
-    dealer.all_cards[-1].hide()
+    """Clear player hands, deal new hand, hide second dealer card."""
+    del PLAYER.all_cards[:]
+    del DEALER.all_cards[:]
+    PLAYER.all_cards.append(dealer_deck.deal_card())
+    DEALER.all_cards.append(dealer_deck.deal_card())
+    PLAYER.all_cards.append(dealer_deck.deal_card())
+    DEALER.all_cards.append(dealer_deck.deal_card())
+    DEALER.all_cards[-1].hide()
 
 def next_move(): # TODO: validate choice input type
+    """Get and execute next move from player."""
     option = int(input('''
     What do you want to do next?
     1. Stand
@@ -61,18 +65,18 @@ def next_move(): # TODO: validate choice input type
     '''))
 
     if option == 1: # stand
-        dealer.all_cards[-1].show()
-        while dealer.hand_value() < 17:
-            dealer.all_cards.append(dealer_deck.deal_card())
+        DEALER.all_cards[-1].show()
+        while DEALER.hand_value() < 17:
+            DEALER.all_cards.append(dealer_deck.deal_card())
             refresh()
             time.sleep(1)
             continue
-        if dealer.hand_value() >= 17:
+        if DEALER.hand_value() >= 17:
             who_wins()
     elif option == 2: # hit
-        player.all_cards.append(dealer_deck.deal_card())
+        PLAYER.all_cards.append(dealer_deck.deal_card())
         refresh()
-        if player.hand_value() > 21:
+        if PLAYER.hand_value() > 21:
             print("BUST!!")
             pot.empty()
             return
@@ -81,54 +85,60 @@ def next_move(): # TODO: validate choice input type
         sys.exit(0)
 
 def who_wins():
-    if dealer.hand_value() > 21:
+    """Evaluate and act on win conditions."""
+    if DEALER.hand_value() > 21:
         refresh()
         print(f"Player wins {pot.amount}!")
-        player.money += pot.amount
+        PLAYER.money += pot.amount
         pot.empty()
-        print(f"Player money: {player.money}")
+        print(f"Player money: {PLAYER.money}")
         return
 
-    if dealer.hand_value() > player.hand_value():
+    if DEALER.hand_value() > PLAYER.hand_value():
         refresh()
         print("Dealer wins!")
         pot.empty()
         return
 
-    elif dealer.hand_value() < player.hand_value():
+    if DEALER.hand_value() < PLAYER.hand_value():
         refresh()
         print(f"Player wins {pot.amount}!")
-        player.money += pot.amount
+        PLAYER.money += pot.amount
         pot.empty()
-        print(f"Player money: {player.money}")
+        print(f"Player money: {PLAYER.money}")
         return
 
-    elif dealer.hand_value() == player.hand_value():
+    if DEALER.hand_value() == PLAYER.hand_value():
         refresh()
         print("Push")
-        player.money += pot.amount//2
+        PLAYER.money += pot.amount//2
         pot.empty()
         return
 
 def make_bet(): # TODO: validate bet input type
+    """Ask player to make a bet, deduct from player, add to pot."""
     bet = int(input(f'''
     How much do you want to bet?
-    ({player.money} available)
+    ({PLAYER.money} available)
     '''))
-    if bet > player.money:
+    if bet > PLAYER.money:
         print("You can't afford that. Try again.")
         make_bet()
-    player.deduct(bet)
+    PLAYER.deduct(bet)
     pot.add(bet*2)
 
 def ace_check():
-    global player
-    global dealer
-    for person in [player,dealer]:
+    """Logic to check for aces and adjust value."""
+    # TODO: see if the ace value change can be a method
+    # on the class, so we don't have to use global vars here
+    # W0603: Using the global statement (global-statement)
+    global PLAYER
+    global DEALER
+    for person in [PLAYER,DEALER]:
         for card in person.all_cards:
             if card.rank == 'Ace':
                 # print(f"{person.name} has an Ace...")
-                if player.hand_value == 21:
+                if PLAYER.hand_value() == 21:
                     who_wins()
                 if person.hand_value() > 21:
                     # print(f"AND {person.name} has more than 21: {person.hand_value()}")
@@ -140,21 +150,22 @@ def ace_check():
                 # print(f'Ace: {card.value}')
 
 def play_blackjack():
+    """Main function."""
     make_bet()
     initial_deal()
     refresh()
-    if player.hand_value() == 21:
-        if len(player.all_cards) == 2:
+    if PLAYER.hand_value() == 21:
+        if len(PLAYER.all_cards) == 2:
             print(f"BLACKJACK!! Player wins {pot.amount*3//2}")
-            player.money += pot.amount*3//2
+            PLAYER.money += pot.amount*3//2
             pot.empty()
-            print(f"Player money: {player.money}")
+            print(f"Player money: {PLAYER.money}")
             return
     next_move()
     time.sleep(4)
     os.system('clear')
 
-while player.money > 0:
+while PLAYER.money > 0:
     if len(dealer_deck.all_cards) <= 13:
         dealer_deck = cards.Deck()
         print("...shuffling the deck...")
