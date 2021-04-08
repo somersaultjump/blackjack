@@ -1,7 +1,7 @@
-import cards
 import sys
 import time
 import os
+import cards
 
 player = cards.Player()
 dealer = cards.Player("Dealer")
