@@ -95,7 +95,7 @@ def who_wins():
         pot.empty()
         return
 
-    elif dealer.hand_value() < player.hand_value():
+    if dealer.hand_value() < player.hand_value():
         refresh()
         print(f"Player wins {pot.amount}!")
         player.money += pot.amount
@@ -103,7 +103,7 @@ def who_wins():
         print(f"Player money: {player.money}")
         return
 
-    elif dealer.hand_value() == player.hand_value():
+    if dealer.hand_value() == player.hand_value():
         refresh()
         print("Push")
         player.money += pot.amount//2
