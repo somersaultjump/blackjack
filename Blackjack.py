@@ -137,17 +137,11 @@ def ace_check():
     for person in [PLAYER,DEALER]:
         for card in person.all_cards:
             if card.rank == 'Ace':
-                # print(f"{person.name} has an Ace...")
                 if PLAYER.hand_value() == 21:
                     who_wins()
                 if person.hand_value() > 21:
-                    # print(f"AND {person.name} has more than 21: {person.hand_value()}")
-                    # print(f'Old Ace: {card.value}')
                     card.value = 1
-                    # print(f'New Ace: {card.value}')
                     return
-                # print(f"BUT {person.name} has less than 21: {person.hand_value()}")
-                # print(f'Ace: {card.value}')
 
 def play_blackjack():
     """Main function."""
