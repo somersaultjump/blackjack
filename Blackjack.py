@@ -55,6 +55,19 @@ def initial_deal():
     DEALER.all_cards.append(dealer_deck.deal_card())
     DEALER.all_cards[-1].hide()
 
+def get_input():
+    # make sure the var is empty
+    this_input = None
+
+    # ask user for input until they get it right.
+    while not isinstance(this_input,int):
+        try:
+            this_input = int(input("Enter a number: "))
+        except:
+            print(f"Invalid choice. Try again.")
+    
+    return this_input
+
 def next_move(): # TODO: validate choice input type
     """Get and execute next move from player."""
     option = int(input('''
