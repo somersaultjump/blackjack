@@ -68,14 +68,16 @@ def get_input():
     
     return this_input
 
-def next_move(): # TODO: validate choice input type
+def next_move(): # TODO: limit choices to 1,2, or 3
     """Get and execute next move from player."""
-    option = int(input('''
+    print('''
     What do you want to do next?
     1. Stand
     2. Hit
     3. Quit
-    '''))
+    ''')
+
+    option = get_input()
 
     if option == 1: # stand
         DEALER.all_cards[-1].show()
@@ -128,7 +130,7 @@ def who_wins():
         pot.empty()
         return
 
-def make_bet(): # TODO: validate bet input type
+def make_bet():
     """Ask player to make a bet, deduct from player, add to pot."""
     print(f'''
     How much do you want to bet?
