@@ -130,10 +130,11 @@ def who_wins():
 
 def make_bet(): # TODO: validate bet input type
     """Ask player to make a bet, deduct from player, add to pot."""
-    bet = int(input(f'''
+    print(f'''
     How much do you want to bet?
     ({PLAYER.money} available)
-    '''))
+    ''')
+    bet = get_input()
     if bet > PLAYER.money:
         print("You can't afford that. Try again.")
         make_bet()
