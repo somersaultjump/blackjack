@@ -104,7 +104,7 @@ def next_move(): # TODO: limit choices to 1,2, or 3
         sys.exit(0)
     else:
         refresh()
-        print(f'Do you see {option} in that list?  Try again.')
+        print('That is not a valid option. Try again.')
         next_move()
 
 def who_wins():
