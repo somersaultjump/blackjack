@@ -8,12 +8,16 @@ DEALER = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()
 
-def refresh():
+def clear_screen():
     """Clear the screen, check for aces on the table, show the table."""
     if sys.platform == 'win32':
         os.system('cls')
     else:
         os.system('clear')
+
+def refresh():
+    """Combine functions to act as a refresh of the board/gamestate."""
+    clear_screen()
     ace_check()
     show_table()
 
@@ -98,6 +102,10 @@ def next_move(): # TODO: limit choices to 1,2, or 3
         next_move()
     elif option == 3: # quit
         sys.exit(0)
+    else:
+        refresh()
+        print(f'Do you see {option} in that list?  Try again.')
+        next_move()
 
 def who_wins():
     """Evaluate and act on win conditions."""
