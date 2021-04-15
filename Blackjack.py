@@ -8,12 +8,16 @@ DEALER = cards.Player("Dealer")
 dealer_deck = cards.Deck()
 pot = cards.Pot()
 
-def refresh():
+def clear_screen():
     """Clear the screen, check for aces on the table, show the table."""
     if sys.platform == 'win32':
         os.system('cls')
     else:
         os.system('clear')
+
+def refresh():
+    """Combine functions to act as a refresh of the board/gamestate."""
+    clear_screen()
     ace_check()
     show_table()
 
@@ -55,14 +59,29 @@ def initial_deal():
     DEALER.all_cards.append(dealer_deck.deal_card())
     DEALER.all_cards[-1].hide()
 
-def next_move(): # TODO: validate choice input type
+def get_input():
+    # make sure the var is empty
+    this_input = None
+
+    # ask user for input until they get it right.
+    while not isinstance(this_input,int):
+        try:
+            this_input = int(input("Enter a number: "))
+        except:
+            print(f"Invalid choice. Try again.")
+    
+    return this_input
+
+def next_move(): # TODO: limit choices to 1,2, or 3
     """Get and execute next move from player."""
-    option = int(input('''
+    print('''
     What do you want to do next?
     1. Stand
     2. Hit
     3. Quit
-    '''))
+    ''')
+
+    option = get_input()
 
     if option == 1: # stand
         DEALER.all_cards[-1].show()
@@ -83,6 +102,10 @@ def next_move(): # TODO: validate choice input type
         next_move()
     elif option == 3: # quit
         sys.exit(0)
+    else:
+        refresh()
+        print(f'Do you see {option} in that list?  Try again.')
+        next_move()
 
 def who_wins():
     """Evaluate and act on win conditions."""
@@ -115,12 +138,13 @@ def who_wins():
         pot.empty()
         return
 
-def make_bet(): # TODO: validate bet input type
+def make_bet():
     """Ask player to make a bet, deduct from player, add to pot."""
-    bet = int(input(f'''
+    print(f'''
     How much do you want to bet?
     ({PLAYER.money} available)
-    '''))
+    ''')
+    bet = get_input()
     if bet > PLAYER.money:
         print("You can't afford that. Try again.")
         make_bet()
@@ -137,17 +161,11 @@ def ace_check():
     for person in [PLAYER,DEALER]:
         for card in person.all_cards:
             if card.rank == 'Ace':
-                # print(f"{person.name} has an Ace...")
                 if PLAYER.hand_value() == 21:
                     who_wins()
                 if person.hand_value() > 21:
-                    # print(f"AND {person.name} has more than 21: {person.hand_value()}")
-                    # print(f'Old Ace: {card.value}')
                     card.value = 1
-                    # print(f'New Ace: {card.value}')
                     return
-                # print(f"BUT {person.name} has less than 21: {person.hand_value()}")
-                # print(f'Ace: {card.value}')
 
 def play_blackjack():
     """Main function."""
