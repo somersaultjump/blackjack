@@ -66,11 +66,15 @@ def get_input():
     # ask user for input until they get it right.
     while not isinstance(this_input,int):
         try:
-            this_input = int(input("Enter a number: "))
+            this_input = int(input("Enter a number('0' to quit): "))
         except:
             print(f"Invalid choice. Try again.")
-    
-    return this_input
+
+    if this_input == 0:
+        print('Thanks for playing!')
+        sys.exit(0)
+    else:
+        return this_input
 
 def next_move():
     """Get and execute next move from player."""
@@ -78,7 +82,6 @@ def next_move():
     What do you want to do next?
     1. Stand
     2. Hit
-    3. Quit
     ''')
 
     option = get_input()
@@ -100,8 +103,6 @@ def next_move():
             pot.empty()
             return
         next_move()
-    elif option == 3: # quit
-        sys.exit(0)
     else:
         refresh()
         print('That is not a valid option. Try again.')
