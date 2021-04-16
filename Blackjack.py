@@ -23,8 +23,10 @@ def refresh():
 
 def show_table():
     """Display the active game table."""
-    print('')
     print('***********************')
+    print('****** BLACKJACK ******')
+    print('***********************')
+    print('*Use "0" input to quit*')
     print('')
     print(f'Deck: {len(dealer_deck.all_cards)}')
     print(f'Pot: {pot.amount}')
@@ -67,7 +69,7 @@ def get_input():
     # ask user for input until they get it right.
     while not isinstance(this_input,int):
         try:
-            this_input = int(input("Enter a number('0' to quit): "))
+            this_input = int(input("Enter a number: "))
         except TypeError:
             print('Invalid choice. Try again.')
 
