@@ -60,6 +60,7 @@ def initial_deal():
     DEALER.all_cards[-1].hide()
 
 def get_input():
+    '''Get input from user'''
     # make sure the var is empty
     this_input = None
 
@@ -67,8 +68,8 @@ def get_input():
     while not isinstance(this_input,int):
         try:
             this_input = int(input("Enter a number('0' to quit): "))
-        except:
-            print(f"Invalid choice. Try again.")
+        except TypeError:
+            print('Invalid choice. Try again.')
 
     if this_input == 0:
         print('Thanks for playing!')
