@@ -72,7 +72,7 @@ def get_input():
     
     return this_input
 
-def next_move(): # TODO: limit choices to 1,2, or 3
+def next_move():
     """Get and execute next move from player."""
     print('''
     What do you want to do next?
